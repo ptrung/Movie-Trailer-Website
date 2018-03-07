@@ -1,6 +1,6 @@
 # ud036_StarterCode
 
-This project provides the code to build a website with your favorite movies. You only have to provide the movie ids of TMDb and all information will be created automatically. .
+This project provides the code to build a website with your favorite movies. You only have to provide the movie ids of TMDb and all information will be created automatically.
 
 ## Getting Started
 
@@ -42,3 +42,7 @@ At the end you have to add all movie instances to the list at the end:
 # array of movies which will be shown on the website
 movies = [your_name, hunger_games, lion_king, harry_potter, wonder]
 ```
+
+## Acknowledge
+
+This project was built as part of the Udacity course "Fullstack Web Developer Nanodegree". The file *fresh_tomatoes.py* was provided by Udacity and is only slightly modified by me. 
