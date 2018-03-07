@@ -1,5 +1,4 @@
-# ud036_StarterCode
-
+# Movie Trailer Website
 This project provides the code to build a website with your favorite movies. You only have to provide the movie ids of TMDb and all information will be created automatically.
 
 ## Getting Started
