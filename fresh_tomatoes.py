@@ -9,16 +9,24 @@ main_page_head = '''
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>Fresh Tomatoes!</title>
+    <title>My favorite movies</title>
 
-    <!-- Bootstrap 3 -->
-    <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/bootstrap/3.1.0/css/bootstrap.min.css">
-    <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/bootstrap/3.1.0/css/bootstrap-theme.min.css">
-    <script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
-    <script src="https://netdna.bootstrapcdn.com/bootstrap/3.1.0/js/bootstrap.min.js"></script>
+    <!-- Bootstrap 4 -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
     <style type="text/css" media="screen">
         body {
-            padding-top: 80px;
+            background-color: #f2f2f2;
+            color: #262626;
+        }
+        h1 {
+            text-align: center;
+            font-variant: small-caps;
+            padding-top: 20px;
+            padding-bottom: 20px;
+            background-color: #262626;
+            color: #f2f2f2;
         }
         #trailer .modal-dialog {
             margin-top: 200px;
@@ -35,9 +43,14 @@ main_page_head = '''
             width: 100%;
             height: 100%;
         }
+        .movies {
+            margin-bottom: 40px;
+        }
+        
         .movie-tile {
             margin-bottom: 20px;
             padding-top: 20px;
+            min-width: 350px;
         }
         .movie-tile:hover {
             background-color: #EEE;
@@ -55,6 +68,13 @@ main_page_head = '''
             left: 0;
             top: 0;
             background-color: white;
+        }
+        .rating {
+            color: #262626;
+            font-weight: bold;
+            width: 220px;
+            margin-left: auto;
+            margin-right: auto;
         }
     </style>
     <script type="text/javascript" charset="utf-8">
@@ -74,12 +94,6 @@ main_page_head = '''
               'src': sourceUrl,
               'frameborder': 0
             }));
-        });
-        // Animate in the movies when the page loads
-        $(document).ready(function () {
-          $('.movie-tile').hide().first().show("fast", function showNext() {
-            $(this).next("div").show("fast", showNext);
-          });
         });
     </script>
 </head>
@@ -103,17 +117,12 @@ main_page_content = '''
     </div>
 
     <!-- Main Page Content -->
-    <div class="container">
-      <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
-        <div class="container">
-          <div class="navbar-header">
-            <a class="navbar-brand" href="#">Fresh Tomatoes Movie Trailers</a>
-          </div>
-        </div>
+    <h1>Trailer's of my favorite movies</h1>
+    </nav>
+    <div class="container movies">
+      <div class="row">
+        {movie_tiles}
       </div>
-    </div>
-    <div class="container">
-      {movie_tiles}
     </div>
   </body>
 </html>
@@ -122,7 +131,8 @@ main_page_content = '''
 
 # A single movie entry html template
 movie_tile_content = '''
-<div class="col-md-6 col-lg-4 movie-tile text-center" data-trailer-youtube-id="{trailer_youtube_id}" data-toggle="modal" data-target="#trailer">
+<div class="col movie-tile text-center" data-trailer-youtube-id="{trailer_youtube_id}" data-toggle="modal" data-target="#trailer">
+    <div class="rating" style="background-color: {rating_color}">TMDb-Userrating: {userrating} %</div>
     <img src="{poster_image_url}" width="220" height="342">
     <h2>{movie_title}</h2>
 </div>
@@ -141,11 +151,21 @@ def create_movie_tiles_content(movies):
         trailer_youtube_id = (youtube_id_match.group(0) if youtube_id_match
                               else None)
 
+        # Define background-color dependent on userrating
+        if movie.userrating >= 70:
+            color = '#008000'
+        elif movie.userrating >= 40:
+            color = '#e6e600'
+        else:
+            color = '#cc2900'
+
         # Append the tile for the movie with its content filled in
         content += movie_tile_content.format(
             movie_title=movie.title,
             poster_image_url=movie.poster_image_url,
-            trailer_youtube_id=trailer_youtube_id
+            trailer_youtube_id=trailer_youtube_id,
+            userrating = movie.userrating,
+            rating_color = color
         )
     return content
 
