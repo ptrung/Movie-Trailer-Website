@@ -1,5 +1,6 @@
 import tmdb3 as tmbd
 
+
 class TmdbMovie():
     """Class Tmdb provides the connection to the TM database
 
@@ -14,7 +15,7 @@ class TmdbMovie():
     def __init__(self, api_key, movie_id):
         tmbd.set_key(api_key)
         tmbd.set_cache('null')
-        tmbd.set_locale('en','US')
+        tmbd.set_locale('en', 'US')
         self.movie = tmbd.Movie(movie_id)
 
     def title(self):
@@ -48,5 +49,4 @@ class TmdbMovie():
             userrating: An int of the userrating
         """
         userrating = int(self.movie.userrating * 10)
-        return userrating;
- 
+        return userrating
